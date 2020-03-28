@@ -46,6 +46,7 @@ function employeeWageComputation() {
 		totalWorkingHours=$(($totalWorkingHours + $employeeHours))
 		empDailyWage[$totalWorkingDays]="$(getDailyWage)"
 	done
+	echo ${!empDailyWage[@]}
 	echo ${empDailyWage[@]}
 	totalSalery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
 }
