@@ -11,9 +11,8 @@ MAXIMUM_WORKING_HOURS=100
 totalWorkingDays=0
 totalWorkingHours=0
 
-while [[ $totalWorkingDays -ne $MAXIMUM_WORKING_DAYS && $totalWorkingHours -ne $MAXIMUM_WORKING_HOURS ]]
-do
-	((totalWorkingDays++))
+#To get Employee working hours
+function getWorkingHours() {
 	randomCheck=$((RANDOM%3))
 	case $randomCheck in
 		$IS_FULL_TIME)
@@ -26,6 +25,15 @@ do
 			empHours=0
 			;;
 	esac
-	totalWorkingHours=$(($totalWorkingHours + $empHours))
+	echo $empHours
+}
+
+#Calculate wage till the Days and Hours reached 20 and 100
+while [[ $totalWorkingDays -ne $MAXIMUM_WORKING_DAYS && $totalWorkingHours -ne $MAXIMUM_WORKING_HOURS ]]
+do
+	((totalWorkingDays++))
+	employeeHours="$(getWorkingHours)"
+	totalWorkingHours=$(($totalWorkingHours + $employeeHours))
 done
+
 totalSalery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
