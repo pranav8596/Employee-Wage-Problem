@@ -1,5 +1,8 @@
 #!/bin/bash -x
 
+#Declaration of an array
+declare -a empDailyWage
+
 #Constants
 EMPLOYEE_RATE_PER_HOUR=20
 IS_FULL_TIME=2
@@ -28,12 +31,24 @@ function getWorkingHours() {
 	echo $empHours
 }
 
-#Calculate wage till the Days and Hours reached 20 and 100
-while [[ $totalWorkingDays -ne $MAXIMUM_WORKING_DAYS && $totalWorkingHours -ne $MAXIMUM_WORKING_HOURS ]]
-do
-	((totalWorkingDays++))
-	employeeHours="$(getWorkingHours)"
-	totalWorkingHours=$(($totalWorkingHours + $employeeHours))
-done
+#To get the Daily Wage of the Employee
+function getDailyWage() {
+	wagesPerDay=$(($employeeHours * $EMPLOYEE_RATE_PER_HOUR))
+	echo $wagesPerDay
+}
 
-totalSalery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
+#Calculate wage till the Days and Hours reached 20 and 100
+function employeeWageComputation() {
+	while [[ $totalWorkingDays -ne $MAXIMUM_WORKING_DAYS && $totalWorkingHours -ne $MAXIMUM_WORKING_HOURS ]]
+	do
+		((totalWorkingDays++))
+		employeeHours="$(getWorkingHours)"
+		totalWorkingHours=$(($totalWorkingHours + $employeeHours))
+		empDailyWage[$totalWorkingDays]="$(getDailyWage)"
+	done
+	echo ${empDailyWage[@]}
+	totalSalery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
+}
+
+#Main
+employeeWageComputation
