@@ -31,10 +31,22 @@ function getWorkingHours() {
 	echo $empHours
 }
 
+#To get total working hours for a month
+function getTotalWorkingHours() {
+	totalWorkingHours=$(($totalWorkingHours + $employeeHours))
+	echo $totalWorkingHours
+}
+
 #To get the Daily Wage of the Employee
 function getDailyWage() {
 	wagesPerDay=$(($employeeHours * $EMPLOYEE_RATE_PER_HOUR))
 	echo $wagesPerDay
+}
+
+#To get total salery for a month
+function getTotalSalery() {
+	salery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
+	echo $salery
 }
 
 #Calculate wage till the Days and Hours reached 20 and 100
@@ -43,12 +55,12 @@ function employeeWageComputation() {
 	do
 		((totalWorkingDays++))
 		employeeHours="$(getWorkingHours)"
-		totalWorkingHours=$(($totalWorkingHours + $employeeHours))
+		totalWorkingHours="$(getTotalWorkingHours)"
 		empDailyWage[$totalWorkingDays]="$(getDailyWage)"
 	done
 	echo "Day: ${!empDailyWage[@]}"
 	echo "Daily Wage: ${empDailyWage[@]}"
-	totalSalery=$(($totalWorkingHours * $EMPLOYEE_RATE_PER_HOUR))
+	totalSalery="$(getTotalSalery)"
 	echo "Total salery: $totalSalery"
 }
 
